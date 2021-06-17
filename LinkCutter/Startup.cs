@@ -13,6 +13,8 @@ namespace LinkCutter
 {
     public class Startup
     {
+        private string _productionConnString, _developmentConnString;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -26,17 +28,28 @@ namespace LinkCutter
             services.AddMvc();
             services.AddRazorPages();
             services.AddControllersWithViews();
+
+            _productionConnString = Configuration["productionString"];
+            _developmentConnString = Configuration["developmentString"];
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            Database.ConnectionString = !env.IsDevelopment() ? _productionConnString : _developmentConnString;
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
             app.UseRouting();
+            app.UseStaticFiles();
 
+            using(var db = new Database())
+            {
+                db.Database.EnsureCreated();
+            }
+            app.UseStatusCodePagesWithRedirects("/");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
