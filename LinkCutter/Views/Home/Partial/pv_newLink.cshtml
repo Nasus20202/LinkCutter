@@ -1,11 +1,35 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+@{
 }
-<form style="padding-bottom: 20px">
+
+
+<div style="padding-bottom: 20px">
+    <input id="url" class="form-control form-control-lg bg-light-blue" type="text" placeholder="Link to be shorten">
     <p id="result">
-        <input class="form-control form-control-lg bg-light-blue" type="text" placeholder="Link to be shorten">
+        <hr />
     </p>
-    <hr />
     <div class="d-grid gap-2">
-        <button class="btn btn-primary btn-change btn-lg" type="button">Cut</button>
+        <button id="cut" class="btn btn-primary btn-change btn-lg" type="button" onclick="send()">Cut</button>
     </div>
-</form>
+
+</div>
+<script>
+    function send() {
+        var link = document.getElementById("url").value;
+        $.post("/cut", { url: link }, function (data) {
+            var cutLink = 'https://@Context.Request.Host/' + data;
+            document.getElementById("result").innerHTML = '<hr /><a href="' + cutLink + '" class="text-white text-center" style = "height: 30px; text-decoration: none; font-size: x-large;" target="_blank">' + cutLink + '</a><a href="' + cutLink + '/info" class="text-white text-center" style = "height: 30px; text-decoration: none; font-size: x-large; float:right" target="_blank">Stats</a>';
+
+        });
+    }
+
+    var input = document.getElementById("url");
+    input.addEventListener("keyup", function (event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            document.getElementById("cut").click();
+        }
+    });
+</script>
+
+
