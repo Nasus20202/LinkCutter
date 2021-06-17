@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace LinkCutter.Models
 {
-    public class BaseModel
+    public class LinkInfoModel : BaseModel
     {
-        public BaseModel(string title = "")
+        public LinkInfoModel() : base()
         {
-            Title = title;
-        }
-        public string Title { get; set; }
-    }
 
+        }
+
+        public Link Link { get; set; }
+    }
 }

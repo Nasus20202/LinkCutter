@@ -49,7 +49,7 @@ namespace LinkCutter
             {
                 db.Database.EnsureCreated();
             }
-
+            app.UseStatusCodePagesWithRedirects("/");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
