@@ -52,6 +52,10 @@ namespace LinkCutter.Controllers
         {
             if (HttpContext.Request.Headers["X-Requested-With"] != "XMLHttpRequest")
                 return BadRequest();
+            if (!url.Contains("."))
+            {
+                return Ok("Bad");
+            }
             string code;
             using(var db = new Database())
             {

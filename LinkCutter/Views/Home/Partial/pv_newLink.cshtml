@@ -2,23 +2,33 @@
 @{
 }
 
+<div id="error" class="alert alert-dark text-navy bg-red h5 alert-dismissible fade show" role="alert" style="display: none">
+    Link which you have submitted is invalid.
+</div>
 
 <div style="padding-bottom: 20px">
-    <input id="url" class="form-control form-control-lg bg-light-blue" type="text" placeholder="Link to be shorten">
+    <input id="url" class="form-control form-control-lg bg-light-blue" type="url" placeholder="Link to be shorten">
     <p id="result">
         <hr />
     </p>
     <div class="d-grid gap-2">
         <button id="cut" class="btn btn-primary btn-change btn-lg" type="button" onclick="send()">Cut</button>
     </div>
-
 </div>
 <script>
     function send() {
         var link = document.getElementById("url").value;
         $.post("/cut", { url: link }, function (data) {
-            var cutLink = 'https://@Context.Request.Host/' + data;
-            document.getElementById("result").innerHTML = '<hr /><a href="' + cutLink + '" class="text-white text-center" style = "height: 30px; text-decoration: none; font-size: x-large;" target="_blank">' + cutLink + '</a><a href="' + cutLink + '/info" class="text-white text-center" style = "height: 30px; text-decoration: none; font-size: x-large; float:right" target="_blank">Stats</a>';
+            error = document.getElementById("error");
+            result = document.getElementById("result");
+            error.style.display = "none";
+            if (data === "Bad") {
+                error.style.display = "block";
+                result.innerHTML = "";
+            } else {
+                var cutLink = 'https://@Context.Request.Host/' + data;
+                result.innerHTML = '<hr /><a href="' + cutLink + '" class="text-white text-center" style = "height: 30px; text-decoration: none; font-size: x-large;" target="_blank">' + cutLink + '</a><a href="' + cutLink + '/info" class="text-white text-center" style = "height: 30px; text-decoration: none; font-size: x-large; float:right" target="_blank">Stats</a>';
+            }
 
         });
     }
