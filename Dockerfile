@@ -2,7 +2,13 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 
 WORKDIR /build
 
-COPY . .
+COPY LinkCutter.sln .
+
+COPY LinkCutter/LinkCutter.csproj LinkCutter/
+
+RUN dotnet restore
+
+COPY LinkCutter/ LinkCutter/
 
 RUN dotnet publish LinkCutter -c Release -o out
 
