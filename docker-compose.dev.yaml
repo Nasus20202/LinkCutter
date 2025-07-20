@@ -1,6 +1,6 @@
 services:
   linkcutter:
-    image: nasus20202/linkcutter:latest
+    build: .
     container_name: linkcutter
     restart: always
     ports:
