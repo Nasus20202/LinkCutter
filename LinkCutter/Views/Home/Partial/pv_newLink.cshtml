@@ -26,7 +26,7 @@
                 error.style.display = "block";
                 result.innerHTML = "";
             } else {
-                var cutLink = 'https://@Context.Request.Host/' + data;
+                var cutLink = '@Context.Request.Scheme://@Context.Request.Host/' + data;
                 result.innerHTML = '<hr /><a href="' + cutLink + '" class="text-white text-center" style = "height: 30px; text-decoration: none; font-size: x-large;" target="_blank">' + cutLink + '</a><a href="' + cutLink + '/info" class="text-white text-center" style = "height: 30px; text-decoration: none; font-size: x-large; float:right" target="_blank">Stats</a>';
             }
 
